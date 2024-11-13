@@ -15,35 +15,49 @@ Use mod to grab position/rotation and model values for objects in Left 4 Dead 2.
 ## HOTKEY CONTROLS
 
 - KP_INS/0
-  - select object that you are looking at
+  > select object that you are looking at
+
 - KP_DEL/.
-  - spawn new selected where you are looking
+  > spawn new selected where you are looking
+
 - KP_ENTER
-  - save object you are looking at into file
+  > save object you are looking at into file
+
 - KP_END/1
-  - roll object you are looking at to the LEFT
+  > roll object you are looking at to the LEFT
+
 - KP_PGDN/3
-  - roll object you are looking at to the RIGHT
+  > roll object you are looking at to the RIGHT
+
 - KP_LEFTARROW/4
-  - yaw object to the LEFT
+  > yaw object to the LEFT
+
 - KP_RIGHTARROW/6
-  - yaw object to the RIGHT
+  > yaw object to the RIGHT
+
 - KP_DOWNARROW/2
-  - pitch object DOWN towards you
+  > pitch object DOWN towards you
+
 - KP_UPARROW/8
-  - pitch object UP away from you
+  > pitch object UP away from you
+
 - KP_PLUS/+
-  - increase rotation amount variable(shared)
+  > increase rotation amount variable(shared)
+
 - KP_MINUS/-
-  - decrease rotation amount variable(shared)
+  > decrease rotation amount variable(shared)
+
 - PGUP
-  - switch to position mode
+  > switch to position mode
+
 - PGDOWN
-  - switch to rotation mode
+  > switch to rotation mode
+
 - HOME
-  - switch to standard output file and format
+  > switch to standard output file and format
+
 - END
-  - switch to team based output file and format
+  > switch to team based output file and format
 
 ## UPCOMING FEATURES
 
