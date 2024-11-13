@@ -1,0 +1,13 @@
+"propmania"
+{
+	"base"			"coop"
+	"maxplayers"		"4"
+	"DisplayTitle"		"PropMania"
+	"Description"		"Mutation for Mr Pringles to make epic shit!"
+	"Image"			"propmania/addonimage.jpg"
+	"Author"		"Harry Chew"
+	
+	convar
+	{
+	}
+}
