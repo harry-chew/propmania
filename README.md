@@ -1,17 +1,16 @@
 
-# THIS ADDON IS STILL IN DEVELOPMENT                       
+# THIS ADDON IS STILL IN DEVELOPMENT
+
 Use mod to grab position/rotation and model values for objects in Left 4 Dead 2. Contact developer if you wish for any changes - [Harry Chew](https://harrychew.co.uk) &copy;2024
 
 ## TO USE MOD
 
-1. PUT MOD IN ADDONS FOLDER
-2. LOAD GAME
-3. MAKE SURE MOD IS ON and you have VSLIB addon too
-4. OPEN CONSOLE
+1. Put mod in **addons** folder: ~:\SteamLibrary\steamapps\common\Left 4 Dead 2\left4dead2\addons
+2. Add __-insecure__ to L4D2 launch commands
+3. Load up the game
+4. Open console (~)
 5. TYPE: map [mapnamehere] propmania
-6. ENJOY
-
-## CONTROL MAP - CHANGE KEYS IN AUTOEXEC.CFG if you want a different mapping
+6. Enjoy. Change controlset using **autoexec** file: ~:\SteamLibrary\steamapps\common\Left 4 Dead 2\left4dead2\addons\propmania\cfg\autoexec.cfg
 
 ## HOTKEY CONTROLS
 
