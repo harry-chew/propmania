@@ -1,6 +1,6 @@
 AddonInfo {
 	addontitle			"PropMania"
 	addonauthor			"Harry Chew"
-	addonversion			0.7.8
+	addonversion			0.7.9
 	addonDescription		"Tool to save prop locations to file. You can also rotate and position the props in game and copy/paste. You must have the Addon VSLib."
 }

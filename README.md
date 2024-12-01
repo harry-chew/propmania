@@ -1,6 +1,8 @@
 
 # THIS ADDON IS STILL IN DEVELOPMENT
 
+## version 0.7.9
+
 Use mod to grab position/rotation and model values for objects in Left 4 Dead 2. Contact developer if you wish for any changes - [Harry Chew](https://harrychew.co.uk) &copy;2024
 
 ## TO USE MOD
