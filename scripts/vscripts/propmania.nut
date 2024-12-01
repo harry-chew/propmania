@@ -19,6 +19,8 @@ function Notifications::OnSpawn::SetupGame(player, params)
 ::selected <- "none" //stores the currently selected object, used for copy/paste functionality
 ::mode <- "rotation"
 ::sFormat <- "propformat"
+::increment <- [ 1, 2, 5, 10, 30, 45, 90 ]
+::incIndex <- 0
 
 //Setup the Menu
 ::rotationHUD <- HUD.Item("Rotation: {rotation}");
@@ -114,15 +116,16 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 	printf("Format: %s", sFormat);
 }
 
-
 ::DecreaseRotation <- function(player, args)
 {
-	local rot = ::rotation / 2;
+	if (player == null)
+		return;
 
-	if (rot <= 1)
-		rot = 1;
+	incIndex--;
+	if (incIndex <= 0)
+		incIndex = 0;
 
-	rotation = rot;
+	rotation = increment[incIndex];
 
 	printf("Rotation: %i", rotation);
 	rotationHUD.SetValue("rotation", rotation);
@@ -130,12 +133,14 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 
 ::IncreaseRotation <- function(player, args)
 {
-	local rot = ::rotation * 2;
+	if (player == null)
+		return;
 
-	if (rot >= 90)
-		rot = 90;
+	incIndex++;
+	if (incIndex >= increment.len())
+		incIndex = increment.len() - 1;
 
-	rotation = rot;
+	rotation = increment[incIndex];
 
 	printf("Rotation: %i", rotation);
 	rotationHUD.SetValue("rotation", rotation);
