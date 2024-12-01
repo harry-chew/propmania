@@ -3,9 +3,7 @@ IncludeScript("VSLib");
 function Notifications::OnSpawn::SetupGame(player, params)
 {
 	if (player == null)
-	{
 		return;
-	}
 
 	if (FileIO.LoadTable("propmania/save_file") != null)
 	{
@@ -39,6 +37,9 @@ selectedHUD.SetWidth(0.5);
 function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 {
 	local command = GetArgument(0);
+	if (command == null)
+		return;
+
 	switch (command)
 	{
 		case "increase":
@@ -71,6 +72,8 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 ::SwapMode <- function(player, args)
 {
 	local swapmode = GetArgument(1);
+	if (swapmode == null)
+		return;
 
 	switch (swapmode) {
 		case "rotation":
@@ -94,15 +97,15 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 
 ::SwapFormat <- function(player, args) {
 	local swapformat = GetArgument(1);
+	if (swapformat == null)
+		return;
 
 	switch (swapformat) {
 		case "propformat":
 			sFormat = "propformat";
-			//formatHUD.SetFormatString("Format: Propmania");
 			break;
 		case "teamformat":
 			sFormat = "teamformat";
-			//formatHUD.SetFormatString("Format: Teams");
 			break;
 		default:
 			printf("you did a bad");
@@ -114,177 +117,188 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 
 ::DecreaseRotation <- function(player, args)
 {
-	local rot = ::rotation;
-	rot = rot / 2;
-	if (rot <= 1) rot = 1;
+	local rot = ::rotation / 2;
+
+	if (rot <= 1)
+		rot = 1;
+
 	rotation = rot;
+
 	printf("Rotation: %i", rotation);
 	rotationHUD.SetValue("rotation", rotation);
 }
 
 ::IncreaseRotation <- function(player, args)
 {
-	local rot = ::rotation;
-	rot = rot * 2;
-	if (rot >= 96) rot = 96;
+	local rot = ::rotation * 2;
+
+	if (rot >= 90)
+		rot = 90;
+
 	rotation = rot;
+
 	printf("Rotation: %i", rotation);
 	rotationHUD.SetValue("rotation", rotation);
 }
 
 ::CopyEntity <- function(player, args)
 {
-	if (player != null)
-	{
-		local entity = player.GetLookingEntity();
-		if (entity != null)
-		{
-			selected = entity;
-			selectedHUD.SetValue("selected", selected.GetClassname());
-			printf("Selected: %s", selected.GetClassname());
-		}
-	}
+	if (player == null)
+		return;
+
+	local entity = player.GetLookingEntity();
+	if (entity == null)
+		return;
+
+	selected = entity;
+	selectedHUD.SetValue("selected", selected.GetClassname());
+	printf("Selected: %s", selected.GetClassname());
 }
 
 ::PasteEntity <- function(player, args)
 {
-	if (player != null)
-	{
-		if (selected != null)
-		{
-			Utils.SpawnEntity(selected.GetClassname(), "copied entity", player.GetLookingLocation(), player.GetAngles());
-			printf("Paste: %s", selected.GetClassname());
-		}
-	}
+	if (player == null || selected == null)
+		return;
+
+	Utils.SpawnEntity(selected.GetClassname(), "copied entity", player.GetLookingLocation(), player.GetAngles());
+	printf("Paste: %s", selected.GetClassname());
 }
 
 ::Rotate <- function(player, args)
 {
-	if (player != null)
+	if (player == null)
+		return;
+
+	local entity = player.GetLookingEntity();
+	if (entity == null)
+		return;
+
+	local direction = GetArgument(1);
+	local rotationValue = ::rotation;
+	local pos = entity.GetLocation();
+	local ang = entity.GetAngles();
+
+	if (direction == null || pos == null || ang == null)
+		return;
+
+	if (mode == "position")
 	{
-		local entity = player.GetLookingEntity();
-		if (entity != null)
+		local posX = pos.x;
+		local posY = pos.y;
+		local posZ = pos.z;
+
+		switch (direction)
 		{
-			local direction = GetArgument(1);
-			local rotationValue = ::rotation;
-			local pos = entity.GetLocation();
-			local ang = entity.GetAngles();
-
-			if (mode == "position")
-			{
-				local posX = pos.x;
-				local posY = pos.y;
-				local posZ = pos.z;
-
-				switch (direction)
-				{
-					case "left":
-						posX = pos.x + rotationValue.tofloat();
-						break;
-					case "right":
-						posX = pos.x - rotationValue.tofloat();
-						break;
-					case "rr":
-						posZ = pos.z + rotationValue.tofloat();
-						break;
-					case "rl":
-						posZ = pos.z - rotationValue.tofloat();
-						break;
-					case "up":
-						posY = pos.y - rotationValue.tofloat();
-						break;
-					case "down":
-						posY = pos.y + rotationValue.tofloat();
-						break;
-				}
-
-				entity.SetPosition(posX, posY, posZ);
-			}
-			else if (mode == "rotation")
-			{
-				local angX = ang.x;
-				local angY = ang.y;
-				local angZ = ang.z;
-
-				switch (direction)
-				{
-					case "left":
-						angY = ang.y - rotationValue.tofloat();
-						break;
-					case "right":
-						angY = ang.y + rotationValue.tofloat();
-						break;
-					case "up":
-						angX = ang.x - rotationValue.tofloat();
-						break;
-					case "down":
-						angX = ang.x + rotationValue.tofloat();
-						break;
-					case "rl":
-						angZ = ang.z - rotationValue.tofloat();
-						break;
-					case "rr":
-						angZ = ang.z + rotationValue.tofloat();
-						break;
-				}
-
-				entity.SetAngles(angX, angY, angZ);
-			}
+			case "left":
+				posX = pos.x + rotationValue.tofloat();
+				break;
+			case "right":
+				posX = pos.x - rotationValue.tofloat();
+				break;
+			case "rr":
+				posZ = pos.z + rotationValue.tofloat();
+				break;
+			case "rl":
+				posZ = pos.z - rotationValue.tofloat();
+				break;
+			case "up":
+				posY = pos.y - rotationValue.tofloat();
+				break;
+			case "down":
+				posY = pos.y + rotationValue.tofloat();
+				break;
 		}
+
+		entity.SetPosition(posX, posY, posZ);
+	}
+	else if (mode == "rotation")
+	{
+		local angX = ang.x;
+		local angY = ang.y;
+		local angZ = ang.z;
+
+		switch (direction)
+		{
+			case "left":
+				angY = ang.y - rotationValue.tofloat();
+				break;
+			case "right":
+				angY = ang.y + rotationValue.tofloat();
+				break;
+			case "up":
+				angX = ang.x - rotationValue.tofloat();
+				break;
+			case "down":
+				angX = ang.x + rotationValue.tofloat();
+				break;
+			case "rl":
+				angZ = ang.z - rotationValue.tofloat();
+				break;
+			case "rr":
+				angZ = ang.z + rotationValue.tofloat();
+				break;
+		}
+
+		entity.SetAngles(angX, angY, angZ);
 	}
 }
 
 ::SaveToFile <- function(player, args, text)
 {
-	if (player != null)
+	if (player == null)
+		return;
+
+	local entity = player.GetLookingEntity();
+	if (entity == null)
+        return;
+
+	local name = entity.GetClassname();
+	local model = entity.GetModel();
+	local pos = entity.GetPosition();
+	local ang = entity.GetAngles();
+
+	if (name == null || model == null || pos == null || ang == null)
 	{
-		local entity = player.GetLookingEntity();
+		printf("Failed to save entity, missing required information");
+        return;
+    }
 
-		if (entity != null)
+	local stringOutput = "";
+	if (sFormat == "propformat")
+	{
+		stringOutput = format("102, true, true, \"%s\", Vector(%f, %f, %f), Vector(%f, %f, %f),", model, pos.x, pos.y, pos.z, ang.x, ang.y, ang.z);
+	}
+	else if (sFormat == "teamformat")
+	{
+		local formattedString = GetFormattedItemString(pos, ang, model);
+		if (formattedString != "ERROR")
+			stringOutput = formattedString;
+		else
+			stringOutput = format("There was an error processing %s", model);
+	}
+
+	printf(stringOutput);
+	if (sFormat == "propformat") {
+		if (FileIO.LoadTable("propmania/save_file") == null)
 		{
-			local name = entity.GetClassname();
-			local model = entity.GetModel();
-			local pos = entity.GetPosition();
-			local ang = entity.GetAngles();
-			local stringOutput = "";
-			if (sFormat == "propformat")
-			{
-				stringOutput = format("102, true, true, \"%s\", Vector(%f, %f, %f), Vector(%f, %f, %f),", model, pos.x, pos.y, pos.z, ang.x, ang.y, ang.z);
-			}
-			else if (sFormat == "teamformat")
-			{
-				local formattedString = GetFormattedItemString(pos, ang, model);
-				if (formattedString != "ERROR")
-					stringOutput = formattedString;
-				else
-					stringOutput = format("There was an error processing %s", model);
-			}
-
-			printf(stringOutput);
-			if (sFormat == "propformat") {
-				if (FileIO.LoadTable("propmania/save_file") == null)
-				{
-					local table = { "objects" : [stringOutput]};
-					FileIO.SaveTable("propmania/save_file", table);
-				}
-				else {
-					local table = FileIO.LoadTable("propmania/save_file");
-					table.objects.push(stringOutput);
-					FileIO.SaveTable("propmania/save_file", table);
-				}
-			} else if (sFormat == "teamformat") {
-				if (FileIO.LoadTable("propmania/team_file") == null)
-				{
-					local table = { "objects" : [stringOutput]};
-					FileIO.SaveTable("propmania/team_file", table);
-				}
-				else {
-					local table = FileIO.LoadTable("propmania/team_file");
-					table.objects.push(stringOutput);
-					FileIO.SaveTable("propmania/team_file", table);
-				}
-			}
-
+			local table = { "objects" : [stringOutput]};
+			FileIO.SaveTable("propmania/save_file", table);
+		}
+		else {
+			local table = FileIO.LoadTable("propmania/save_file");
+			table.objects.push(stringOutput);
+			FileIO.SaveTable("propmania/save_file", table);
+		}
+	} else if (sFormat == "teamformat") {
+		if (FileIO.LoadTable("propmania/team_file") == null)
+		{
+			local table = { "objects" : [stringOutput]};
+			FileIO.SaveTable("propmania/team_file", table);
+		}
+		else {
+			local table = FileIO.LoadTable("propmania/team_file");
+			table.objects.push(stringOutput);
+			FileIO.SaveTable("propmania/team_file", table);
 		}
 	}
 }
@@ -292,6 +306,10 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 ::GetFormattedItemString <- function(pos, ang, model) {
 	local formattedString = "";
 	local item = "";
+
+	if (model == null)
+		return;
+
 	switch (model) {
 		case "models/w_models/weapons/w_pistol_B.mdl":
 			item = "weapon_pistol";
