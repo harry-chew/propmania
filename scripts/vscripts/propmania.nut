@@ -38,6 +38,9 @@ selectedHUD.SetWidth(0.5);
 //scripted_user_func
 function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 {
+	if (player == null)
+		return;
+
 	local command = GetArgument(0);
 	if (command == null)
 		return;
@@ -73,6 +76,9 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 
 ::SwapMode <- function(player, args)
 {
+	if (player == null)
+		return;
+
 	local swapmode = GetArgument(1);
 	if (swapmode == null)
 		return;
@@ -98,6 +104,9 @@ function EasyLogic::OnUserCommand::DoCommand(player, args, text)
 }
 
 ::SwapFormat <- function(player, args) {
+	if (player == null)
+		return;
+
 	local swapformat = GetArgument(1);
 	if (swapformat == null)
 		return;
